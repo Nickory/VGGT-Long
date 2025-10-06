@@ -63,6 +63,10 @@ from loop_utils.config_utils import load_config  # 读取 YAML 配置
 
 def remove_duplicates(data_list):
     """
+        从所有检测到的“回环候选”中，挑选出【不同 chunk 之间】的唯一回环对，作为后续全局优化（位姿矫正）的约束输入
+        对回环候选列表去重和过滤无效项
+        chunk_idx_a	第一个分块（起点分块）的编号
+        chunk_idx_b	第二个分块（被检测到与前者相似）的编号
         data_list: [(67, (3386, 3406), 48, (2435, 2455)), ...]
         去重函数：用于去除重复的回环段对（以 (chunk_idx_a, chunk_idx_b) 为键）
         只保留第一条出现的组合，且跳过 a==b 的无效回环。
